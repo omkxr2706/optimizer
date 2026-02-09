@@ -188,32 +188,51 @@ namespace HtmlOptimizer
             return sb.ToString();
         }
 
-        private static string GetMinimalCss()
+     private static string GetMinimalCss()
 {
-    return "@page{size:A4;margin:8mm}" +
+    return "@page{size:A4;margin:8mm}" +  // A4 via @page [web:3]
            "*{box-sizing:border-box;margin:0;padding:0}" +
            "html,body{background:#fff;color:#000}" +
-           "body{font:10px/1.3 system-ui,-apple-system,sans-serif}" +
+
+           // Force a SINGLE font across the document to avoid multiple embedded fonts
+           "body{font:10px/1.3 \"Nirmala UI\",system-ui,-apple-system,sans-serif;font-weight:400}" +
+           "b,strong,th,h1,h2,h3{font-weight:400}" +   // avoid bold font embedding
+           "i,em{font-style:normal}" +                 // avoid italic font embedding
+
            "a{color:inherit;text-decoration:none}" +
            ".container_cust{width:100%;max-width:190mm;margin:0 auto;padding:0 3mm}" +
-           ".page-title h1{color:#0A58CA;text-align:center;font-size:14px;font-weight:700;margin:6px 0 8px;line-height:1.2}" +
+
+           // Headline stays blue, centered (no background graphics needed)
+           ".page-title h1{color:#0A58CA;text-align:center;font-size:14px;line-height:1.2;margin:6px 0 8px}" +
+
+           // Boxes + layout alignment
            ".box-wrapper{border:1px solid #000;padding:4px;margin:4px 0;break-inside:avoid-page;page-break-inside:avoid}" +
-           ".box-head{font-weight:700;font-size:10px;border-bottom:1px solid #000;padding:2px 0;margin:0 0 4px;text-transform:uppercase}" +
+           ".box-head{font-size:10px;border-bottom:1px solid #000;padding:2px 0;margin:0 0 4px;text-transform:uppercase}" +
            ".box-body{font-size:9px}" +
+
            ".row{width:100%}" +
            ".row:after{content:'';display:block;clear:both}" +
+
            ".cust-col-md-6,.cust-col-xs-12,.cust-col-xs-6,.cust-col-xs-4,.cust-col-sm-4,.cust-col-sm-8{padding:2px 3px}" +
-           ".cust-col-md-6{float:left;width:50%}.cust-col-xs-12{float:left;width:100%}.cust-col-xs-6{float:left;width:50%}" +
-           ".cust-col-xs-4{float:left;width:33.33%}.cust-col-sm-4{float:left;width:33.33%}.cust-col-sm-8{float:left;width:66.66%}" +
+           ".cust-col-md-6{float:left;width:50%}" +
+           ".cust-col-xs-12{float:left;width:100%}" +
+           ".cust-col-xs-6{float:left;width:50%}" +
+           ".cust-col-xs-4{float:left;width:33.33%}" +
+           ".cust-col-sm-4{float:left;width:33.33%}" +
+           ".cust-col-sm-8{float:left;width:66.66%}" +
+
            ".box{width:100%;overflow:hidden;margin:1px 0}" +
            ".box-label,.box-value{display:inline-block;vertical-align:top;padding:1px 2px}" +
-           ".box-label{width:44%;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}" +
-           ".box-value{width:54%}.box-value:before{content:': '}" +
-           "p,span,div,li{white-space:normal}" +
-           "table{width:100%;border-collapse:collapse;table-layout:fixed;margin:3px 0;font-size:8.5px}" +
-           "th,td{border:1px solid #000;padding:2px 3px;vertical-align:top;overflow-wrap:break-word;word-wrap:break-word}" +
-           "th{font-weight:700;text-align:left}";
+           ".box-label{width:44%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}" +
+           ".box-value{width:54%}" +
+           ".box-value:before{content:': '}" +
+
+           "div,p,span,li{white-space:normal}" +
+
+           "table{width:100%;border-collapse:collapse;table-layout:fixed;margin:4px 0;font-size:8.5px}" +
+           "th,td{border:1px solid #000;padding:2px 3px;vertical-align:top;overflow-wrap:break-word;word-wrap:break-word}";
 }
+
 
         public static string MinifyAggressive(string html)
         {
